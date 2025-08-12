@@ -6,16 +6,171 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { RouterProvider, createRoute, createRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/authStore'
 import { handleServerError } from '@/utils/handle-server-error'
 import { FontProvider } from './context/font-context'
 import { ThemeProvider } from './context/theme-context'
 import './index.css'
-// Generated Routes
-import { routeTree } from './routeTree.gen'
 
+import Tasks from '@/features/tasks'
+import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
+import Dashboard from '@/features/dashboard'
+import RootRoute from '@/root.layout'
+import SignIn from '@/features/auth/sign-in'
+import GeneralError from '@/features/errors/general-error'
+import ForbiddenError from '@/features/errors/forbidden'
+import UnauthorisedError from '@/features/errors/unauthorized-error'
+import MaintenanceError from '@/features/errors/maintenance-error'
+import SignIn2 from '@/features/auth/sign-in/sign-in-2'
+import SignUp from '@/features/auth/sign-up'
+import Users from '@/features/users'
+import ForgotPassword from '@/features/auth/forgot-password'
+import OTP from '@/features/auth/otp'
+import NotFoundError from '@/features/errors/not-found-error'
+import Settings from '@/features/settings'
+import SettingsProfile from '@/features/settings/profile'
+import SettingsAccount from '@/features/settings/account'
+import SettingsAppearance from '@/features/settings/appearance'
+import ComingSoon from '@/components/coming-soon'
+
+const AuthenticatedRouteRoute = createRoute({
+  getParentRoute: () => RootRoute,
+  id: 'root-layout',
+  component: AuthenticatedLayout,
+})
+
+const AuthenticatedIndexRoute = createRoute({
+  getParentRoute: () => AuthenticatedRouteRoute,
+  component: Dashboard,
+  path: '/',
+})
+
+const TasksRoute = createRoute({
+  getParentRoute: () => AuthenticatedRouteRoute,
+  component: Tasks,
+  path: 'tasks',
+})
+const UsersRoute = createRoute({
+  getParentRoute: () => AuthenticatedRouteRoute,
+  component: Users,
+  path: 'users',
+})
+
+const  SignIn2Route = createRoute({
+  getParentRoute: () => RootRoute,
+  component: SignIn2,
+  path: 'sign-in-2',
+})
+
+const SignInRoute = createRoute({
+  getParentRoute: () => RootRoute,
+  component: SignIn,
+  path: 'sign-in',
+})
+
+const SignUpRoute = createRoute({
+  getParentRoute: () => RootRoute,
+  component: SignUp,
+  path: 'sign-up',
+})
+
+const ForgotPasswordRoute = createRoute({
+  getParentRoute: () => RootRoute,
+  component: ForgotPassword,
+  path: 'forgot-password',
+})
+
+const OTPRoute = createRoute({
+  getParentRoute: () => RootRoute,
+  component: OTP,
+  path: 'otp',
+})
+
+const errors401Route = createRoute({
+  getParentRoute: () => RootRoute,
+  component: () => <UnauthorisedError />,
+  path: '401',
+})
+
+const errors403Route = createRoute({
+  getParentRoute: () => RootRoute,
+  component: () => <ForbiddenError />,
+  path: '403',
+})
+
+const errors404Route = createRoute({
+  getParentRoute: () => RootRoute,
+  component: () => <NotFoundError />,
+  path: '404',
+})
+
+const errors500Route = createRoute({
+  getParentRoute: () => RootRoute,
+  component: () => <GeneralError />,
+  path: '500',
+})
+
+const errors503Route = createRoute({
+  getParentRoute: () => RootRoute,
+  component: () => <MaintenanceError />,
+  path: '503',
+})
+
+const SettingsLayoutRoute = createRoute({
+  getParentRoute: () => AuthenticatedRouteRoute,
+  component: Settings,
+  id:'settings-layout'
+})
+
+const SettingsProfileRoute = createRoute({
+  getParentRoute: () => SettingsLayoutRoute,
+  component: SettingsProfile,
+  path: 'settings/profile',
+})
+
+const SettingsAccountRoute = createRoute({
+  getParentRoute: () => SettingsLayoutRoute,
+  component: SettingsAccount,
+  path: 'settings/account',
+})
+
+const SettingsAppearanceRoute = createRoute({
+  getParentRoute: () => SettingsLayoutRoute,
+  component: SettingsAppearance,
+  path: 'settings/appearance',
+})
+
+const HelpCenterRoute = createRoute({
+  getParentRoute: () => AuthenticatedRouteRoute,
+  component: ComingSoon,
+  path: 'help-center',
+})
+
+const routeTree = RootRoute.addChildren([
+  AuthenticatedRouteRoute.addChildren([
+    AuthenticatedIndexRoute,
+    TasksRoute,
+    UsersRoute,
+    HelpCenterRoute,
+  ]),
+  SettingsLayoutRoute.addChildren([
+    SettingsProfileRoute,
+    SettingsAccountRoute,
+    SettingsAppearanceRoute,
+  ]),
+  SignInRoute,
+  SignIn2Route,
+  SignUpRoute,
+  ForgotPasswordRoute,
+  OTPRoute,
+  errors500Route,
+  errors403Route,
+  errors401Route,
+  errors503Route,
+  errors404Route,
+])
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -52,12 +207,12 @@ const queryClient = new QueryClient({
         if (error.response?.status === 401) {
           toast.error('Session expired!')
           useAuthStore.getState().auth.reset()
-          const redirect = `${router.history.location.href}`
-          router.navigate({ to: '/sign-in', search: { redirect } })
+          // const redirect = `${router.history.location.href}`
+          // router.navigate({ to: '/sign-in', search: { redirect } })
         }
         if (error.response?.status === 500) {
           toast.error('Internal Server Error!')
-          router.navigate({ to: '/500' })
+          // router.navigate({ to: '/500' })
         }
         if (error.response?.status === 403) {
           // router.navigate("/forbidden", { replace: true });
@@ -76,7 +231,7 @@ const router = createRouter({
 })
 
 // Register the router instance for type safety
-declare module '@tanstack/react-router' {
+declare module '@tanstack/react-router' { 
   interface Register {
     router: typeof router
   }
