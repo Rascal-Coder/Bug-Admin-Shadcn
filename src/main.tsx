@@ -34,6 +34,8 @@ import SettingsProfile from '@/features/settings/profile'
 import SettingsAccount from '@/features/settings/account'
 import SettingsAppearance from '@/features/settings/appearance'
 import ComingSoon from '@/components/coming-soon'
+import Nested1 from './features/nested/nested-1'
+import Nested21 from './features/nested/nested-2/nested-2-1'
 
 const AuthenticatedRouteRoute = createRoute({
   getParentRoute: () => RootRoute,
@@ -148,12 +150,25 @@ const HelpCenterRoute = createRoute({
   path: 'help-center',
 })
 
+const NestedRoute1= createRoute({
+  getParentRoute: () => AuthenticatedRouteRoute,
+  component: Nested1,
+  path: 'nested/1',
+})
+const NestedRoute21= createRoute({
+  getParentRoute: () => AuthenticatedRouteRoute,
+  component: Nested21,
+  path: 'nested/2/1',
+})
+
 const routeTree = RootRoute.addChildren([
   AuthenticatedRouteRoute.addChildren([
     AuthenticatedIndexRoute,
     TasksRoute,
     UsersRoute,
     HelpCenterRoute,
+    NestedRoute1,
+    NestedRoute21
   ]),
   SettingsLayoutRoute.addChildren([
     SettingsProfileRoute,

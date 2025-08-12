@@ -153,29 +153,29 @@ export const sidebarData: SidebarData = {
           url: '/help-center',
           icon: IconHelp,
         },
-        // {
-        //   title: 'Nested',
-        //   icon: IconLayoutDashboard,
-        //   items: [
-        //     {
-        //       title: 'Nested 1',
-        //       icon: IconLayoutDashboard,
-        //       url: '/nested/1',
-        //     },
-        //     {
-        //       title: 'Nested 2',
-        //       icon: IconLayoutDashboard,
-        //       url: '/nested/2',
-        //       // items: [
-        //       //   {
-        //       //     title: 'Nested 2.1',
-        //       //     icon: IconLayoutDashboard,
-        //       //     url: '/nested/2/1',
-        //       //   },
-        //       // ]
-        //     }
-        //   ]
-        // }
+        {
+          title: 'Nested',
+          icon: IconLayoutDashboard,
+          items: [
+            {
+              title: 'Nested 1',
+              icon: IconLayoutDashboard,
+              url: '/nested/1',
+            },
+            {
+              title: 'Nested 2',
+              icon: IconLayoutDashboard,
+              // url: '/nested/2',
+              items: [
+                {
+                  title: 'Nested 2.1',
+                  icon: IconLayoutDashboard,
+                  url: '/nested/2/1',
+                },
+              ]
+            }
+          ]
+        }
       ],
     },
   ],
