@@ -6,41 +6,48 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
-import { RouterProvider, createRoute, createRouter } from '@tanstack/react-router'
+import {
+  RouterProvider,
+  createRoute,
+  createRouter,
+} from '@tanstack/react-router'
+import RootRoute from '@/root.layout'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/authStore'
 import { handleServerError } from '@/utils/handle-server-error'
-import { FontProvider } from './context/font-context'
-import { ThemeProvider } from './context/theme-context'
-import './index.css'
-
-import Tasks from '@/features/tasks'
+import ComingSoon from '@/components/coming-soon'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
-import Dashboard from '@/features/dashboard'
-import RootRoute from '@/root.layout'
-import SignIn from '@/features/auth/sign-in'
-import GeneralError from '@/features/errors/general-error'
-import ForbiddenError from '@/features/errors/forbidden'
-import UnauthorisedError from '@/features/errors/unauthorized-error'
-import MaintenanceError from '@/features/errors/maintenance-error'
-import SignIn2 from '@/features/auth/sign-in/sign-in-2'
-import SignUp from '@/features/auth/sign-up'
-import Users from '@/features/users'
 import ForgotPassword from '@/features/auth/forgot-password'
 import OTP from '@/features/auth/otp'
+import SignIn from '@/features/auth/sign-in'
+import SignIn2 from '@/features/auth/sign-in/sign-in-2'
+import SignUp from '@/features/auth/sign-up'
+import Dashboard from '@/features/dashboard'
+import ForbiddenError from '@/features/errors/forbidden'
+import GeneralError from '@/features/errors/general-error'
+import MaintenanceError from '@/features/errors/maintenance-error'
 import NotFoundError from '@/features/errors/not-found-error'
+import UnauthorisedError from '@/features/errors/unauthorized-error'
 import Settings from '@/features/settings'
-import SettingsProfile from '@/features/settings/profile'
 import SettingsAccount from '@/features/settings/account'
 import SettingsAppearance from '@/features/settings/appearance'
-import ComingSoon from '@/components/coming-soon'
+import SettingsProfile from '@/features/settings/profile'
+import Tasks from '@/features/tasks'
+import Users from '@/features/users'
+import { FontProvider } from './context/font-context'
+import { ThemeProvider } from './context/theme-context'
 import Nested1 from './features/nested/nested-1'
 import Nested21 from './features/nested/nested-2/nested-2-1'
+import Nested221 from './features/nested/nested-2/nested-2-2/nested-2-2-1'
+import './index.css'
 
 const AuthenticatedRouteRoute = createRoute({
   getParentRoute: () => RootRoute,
   id: 'root-layout',
   component: AuthenticatedLayout,
+  validateSearch: (search: Record<string, unknown>) => ({
+    q: search.q as string,
+  }),
 })
 
 const AuthenticatedIndexRoute = createRoute({
@@ -60,7 +67,7 @@ const UsersRoute = createRoute({
   path: 'users',
 })
 
-const  SignIn2Route = createRoute({
+const SignIn2Route = createRoute({
   getParentRoute: () => RootRoute,
   component: SignIn2,
   path: 'sign-in-2',
@@ -123,7 +130,7 @@ const errors503Route = createRoute({
 const SettingsLayoutRoute = createRoute({
   getParentRoute: () => AuthenticatedRouteRoute,
   component: Settings,
-  id:'settings-layout'
+  id: 'settings-layout',
 })
 
 const SettingsProfileRoute = createRoute({
@@ -150,17 +157,21 @@ const HelpCenterRoute = createRoute({
   path: 'help-center',
 })
 
-const NestedRoute1= createRoute({
+const NestedRoute1 = createRoute({
   getParentRoute: () => AuthenticatedRouteRoute,
   component: Nested1,
   path: 'nested/1',
 })
-const NestedRoute21= createRoute({
+const NestedRoute21 = createRoute({
   getParentRoute: () => AuthenticatedRouteRoute,
   component: Nested21,
   path: 'nested/2/1',
 })
-
+const NestedRoute221 = createRoute({
+  getParentRoute: () => AuthenticatedRouteRoute,
+  component: Nested221,
+  path: 'nested/2/2/1',
+})
 const routeTree = RootRoute.addChildren([
   AuthenticatedRouteRoute.addChildren([
     AuthenticatedIndexRoute,
@@ -168,7 +179,8 @@ const routeTree = RootRoute.addChildren([
     UsersRoute,
     HelpCenterRoute,
     NestedRoute1,
-    NestedRoute21
+    NestedRoute21,
+    NestedRoute221,
   ]),
   SettingsLayoutRoute.addChildren([
     SettingsProfileRoute,
@@ -246,7 +258,7 @@ const router = createRouter({
 })
 
 // Register the router instance for type safety
-declare module '@tanstack/react-router' { 
+declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }

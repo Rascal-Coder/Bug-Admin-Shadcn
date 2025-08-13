@@ -1,5 +1,6 @@
 import { ReactNode, useMemo, forwardRef, HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
+import { ArrowUpRight } from 'lucide-react'
 
 export interface BreadcrumbLinkProps extends HTMLAttributes<HTMLAnchorElement> {
   children: ReactNode
@@ -16,24 +17,27 @@ const BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>(
         cn(
           disabled
             ? 'opacity-50 cursor-not-allowed'
-            : 'hover:text-foreground hover:underline transition-colors duration-200 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary',
+            : 'text-foreground font-normal hover:underline transition-colors duration-200 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary',
           className
         ),
       [className, disabled]
     )
 
     return (
-      <a
-        ref={ref}
-        href={disabled ? undefined : href}
-        aria-disabled={disabled}
-        target={target}
-        className={mergedCls}
-        onClick={disabled ? (e) => e.preventDefault() : undefined}
-        {...props}
-      >
-        {children}
-      </a>
+      <div className='flex items-center gap-1'>
+        <a
+          ref={ref}
+          href={disabled ? undefined : href}
+          aria-disabled={disabled}
+          target={target}
+          className={mergedCls}
+          onClick={disabled ? (e) => e.preventDefault() : undefined}
+          {...props}
+        >
+          {children}
+        </a>
+        <ArrowUpRight className='w-3 h-3 shrink-0 self-start text-muted-foreground' />
+      </div>
     )
   }
 )

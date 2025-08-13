@@ -14,6 +14,7 @@ export interface BreadcrumbItem {
   href?: string
   disabled?: boolean
   target?: string
+  redirect?: string
 }
 
 export interface BreadcrumbUI {
@@ -69,7 +70,7 @@ const renderLinkOrPage = <T extends BreadcrumbItem>(
   }
   
   return (
-    <BreadcrumbPage className={ui.page}>
+    <BreadcrumbPage className={ui.page} disabled={item.disabled}>
       {label}
     </BreadcrumbPage>
   )
@@ -81,6 +82,7 @@ interface EllipsisProps<T> {
   customEllipsisIcon?: ReactNode
   ellipsisItems: T[]
   customSeparator?: ReactNode
+  onItemClick?: (item: T) => void
 }
 
 const Ellipsis = <T extends BreadcrumbItem>({
@@ -89,11 +91,16 @@ const Ellipsis = <T extends BreadcrumbItem>({
   customEllipsisIcon,
   ellipsisItems,
   customSeparator,
+  onItemClick,
 }: EllipsisProps<T>) => {
   const ellipsisContent = renderCustomContent(
     customEllipsis,
     ellipsisItems,
-    <BreadcrumbEllipsis className={ui.ellipsis}>
+    <BreadcrumbEllipsis 
+      className={ui.ellipsis}
+      ellipsisItems={ellipsisItems}
+      onItemClick={onItemClick as (item: BreadcrumbItem) => void}
+    >
       {customEllipsisIcon}
     </BreadcrumbEllipsis>
   )
@@ -288,6 +295,7 @@ export default function Breadcrumb<T extends BreadcrumbItem>({
               customEllipsisIcon={customEllipsisIcon}
               ellipsisItems={ellipsisItems}
               customSeparator={customSeparator}
+              onItemClick={onItemClick}
             />
             {showSeparator && (
               <BreadcrumbItemComponent
