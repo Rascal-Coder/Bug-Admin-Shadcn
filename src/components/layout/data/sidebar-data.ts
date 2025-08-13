@@ -145,7 +145,7 @@ export const sidebarData: SidebarData = {
               title: 'Appearance',
               url: '/settings/appearance',
               icon: IconPalette,
-            }
+            },
           ],
         },
         {
@@ -156,26 +156,29 @@ export const sidebarData: SidebarData = {
         {
           title: 'Nested',
           icon: IconLayoutDashboard,
+          badge: '1',
           items: [
             {
               title: 'Nested 1',
               icon: IconLayoutDashboard,
               url: '/nested/1',
+              badge: '2',
             },
             {
               title: 'Nested 2',
               icon: IconLayoutDashboard,
-              // url: '/nested/2',
+              badge: '3',
               items: [
                 {
                   title: 'Nested 2.1',
                   icon: IconLayoutDashboard,
                   url: '/nested/2/1',
+                  badge: '4',
                 },
-              ]
-            }
-          ]
-        }
+              ],
+            },
+          ],
+        },
       ],
     },
   ],
