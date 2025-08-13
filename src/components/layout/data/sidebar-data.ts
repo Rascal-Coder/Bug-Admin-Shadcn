@@ -175,6 +175,18 @@ export const sidebarData: SidebarData = {
                   url: '/nested/2/1',
                   badge: '4',
                 },
+                {
+                  title: 'Nested 2.2',
+                  icon: IconLayoutDashboard,
+                  items: [
+                    {
+                      title: 'Nested 2.2.1',
+                      icon: IconLayoutDashboard,
+                      url: '/nested/2/2/1',
+                    },
+                  ],
+                  badge: '5',
+                },
               ],
             },
           ],

@@ -1,19 +1,16 @@
-// import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
-// import { ProfileDropdown } from '@/components/profile-dropdown'
-// import { Search } from '@/components/search'
-// import { ThemeSwitch } from '@/components/theme-switch'
 import DashboardComps from './components'
+import { useSearch } from '@tanstack/react-router'
 
 export default function Dashboard() {
+  const search = useSearch({ from: '/root-layout' })
   return (
     <>
-
-
       {/* ===== Main ===== */}
       <Main>
-        <div className='mb-2 flex items-center justify-between space-y-2'>
+        <div className=''>
           <h1 className='text-2xl font-bold tracking-tight'>Dashboard</h1>
+          <p>Search: {search?.q}</p>
         </div>
         <DashboardComps />
       </Main>
