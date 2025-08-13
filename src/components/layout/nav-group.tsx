@@ -26,6 +26,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
+import {
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from '../ui/dropdown-menu'
 import { NavItem, type NavGroup } from './types'
 
 export function NavGroup({ title, items }: NavGroup) {
@@ -66,11 +71,11 @@ const SidebarMenuLink = ({ item, href }: { item: NavItem; href: string }) => {
         isActive={isItemActive(href, item)}
         tooltip={item.title}
       >
-          <Link to={item.url!} onClick={() => setOpenMobile(false)}>
-            {item.icon && <item.icon />}
-            <span className='truncate'>{item.title}</span>
-            {item.badge && <NavBadge>{item.badge}</NavBadge>}
-          </Link>
+        <Link to={item.url!} onClick={() => setOpenMobile(false)}>
+          {item.icon && <item.icon />}
+          <span className='truncate'>{item.title}</span>
+          {item.badge && <NavBadge>{item.badge}</NavBadge>}
+        </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>
   )
@@ -93,9 +98,9 @@ const SidebarMenuCollapsible = ({
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
           <SidebarMenuButton tooltip={item.title}>
+            {item.badge && <NavBadge>{item.badge}</NavBadge>}
             {item.icon && <item.icon />}
             <span className='truncate'>{item.title}</span>
-            {item.badge && <NavBadge>{item.badge}</NavBadge>}
             <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
           </SidebarMenuButton>
         </CollapsibleTrigger>
@@ -133,7 +138,6 @@ const SidebarMenuCollapsedDropdown = ({
           >
             {item.icon && <item.icon />}
             <span className='truncate'>{item.title}</span>
-            {item.badge && <NavBadge>{item.badge}</NavBadge>}
             <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
           </SidebarMenuButton>
         </DropdownMenuTrigger>
@@ -143,7 +147,11 @@ const SidebarMenuCollapsedDropdown = ({
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           {item.items?.map((sub) => (
-            <DropdownItemNode key={`${sub.title}-${sub.url ?? 'group'}`} item={sub} href={href} />
+            <DropdownItemNode
+              key={`${sub.title}-${sub.url ?? 'group'}`}
+              item={sub}
+              href={href}
+            />
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
@@ -176,9 +184,9 @@ const SubItemNode = ({
       <SidebarMenuSubItem>
         <SidebarMenuSubButton asChild isActive={active}>
           <Link to={item.url!} onClick={onLeafClick}>
+            {item.badge && <NavBadge>{item.badge}</NavBadge>}
             {item.icon && <item.icon />}
             <span className='truncate'>{item.title}</span>
-            {item.badge && <NavBadge>{item.badge}</NavBadge>}
           </Link>
         </SidebarMenuSubButton>
       </SidebarMenuSubItem>
@@ -190,9 +198,9 @@ const SubItemNode = ({
       <SidebarMenuSubItem>
         <CollapsibleTrigger asChild>
           <SidebarMenuSubButton isActive={active}>
+            {item.badge && <NavBadge>{item.badge}</NavBadge>}
             {item.icon && <item.icon />}
             <span className='truncate'>{item.title}</span>
-            {item.badge && <NavBadge>{item.badge}</NavBadge>}
             <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
           </SidebarMenuSubButton>
         </CollapsibleTrigger>
@@ -213,12 +221,6 @@ const SubItemNode = ({
   )
 }
 
-import {
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-} from '../ui/dropdown-menu'
-
 const DropdownItemNode = ({ item, href }: { item: NavItem; href: string }) => {
   const hasChildren = !!item.items && item.items.length > 0
   const active = isItemActive(href, item)
@@ -228,7 +230,8 @@ const DropdownItemNode = ({ item, href }: { item: NavItem; href: string }) => {
         <Link to={item.url!} className={`${active ? 'bg-secondary' : ''}`}>
           {item.icon && <item.icon />}
           <span className='max-w-52 text-wrap'>{item.title}</span>
-          {item.badge && <span className='ml-auto text-xs'>{item.badge}</span>}
+          {/* TODO: add badge */}
+          {/* {item.badge && <span className='ml-auto text-xs'>{item.badge}</span>} */}
         </Link>
       </DropdownMenuItem>
     )
@@ -237,9 +240,10 @@ const DropdownItemNode = ({ item, href }: { item: NavItem; href: string }) => {
   return (
     <DropdownMenuSub>
       <DropdownMenuSubTrigger className={`${active ? 'bg-secondary' : ''}`}>
-        {item.icon && <item.icon />}
+        {item.icon && <item.icon className='size-4' />}
         <span className='max-w-52 text-wrap'>{item.title}</span>
-        {item.badge && <span className='ml-auto text-xs'>{item.badge}</span>}
+        {/* TODO: add badge */}
+        {/* {item.badge && <span className='ml-auto text-xs'>{item.badge}</span>} */}
       </DropdownMenuSubTrigger>
       <DropdownMenuSubContent alignOffset={-4}>
         {item.items?.map((child) => (
