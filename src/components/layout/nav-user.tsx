@@ -1,10 +1,4 @@
-import { Link } from '@tanstack/react-router'
-import {
-  BadgeCheck,
-  ChevronsUpDown,
-  LogOut,
-  Sparkles,
-} from 'lucide-react'
+import { BadgeCheck, ChevronsUpDown, LogOut, Sparkles } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -81,10 +75,8 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link to='/settings/account'>
-                  <BadgeCheck />
-                  Account
-                </Link>
+                <BadgeCheck />
+                Account
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
